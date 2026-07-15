@@ -18,6 +18,7 @@ Instead of solving random algorithmic puzzles, you will build a functional, in-m
 2. **The Code:** Open `redis_lite.py`. You will see several empty methods with `TODO` comments.
 3. **The Tests:** Open your terminal and run the test suite:
    ```bash
+   source venv/bin/activate
    python3 test_redis_lite.py
    ```
 4. **The Goal:** The tests will fail initially. Use the cheatsheet to write the Python code in `redis_lite.py` until every single test in `test_redis_lite.py` passes!
