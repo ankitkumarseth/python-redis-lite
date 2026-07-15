@@ -249,6 +249,9 @@ setB = {3, 4, 5}
 print(setA & setB)          # Intersection: {3}
 print(setA | setB)          # Union: {1, 2, 3, 4, 5}
 print(setA - setB)          # Difference: {1, 2}
+print(setA ^ setB)          # Symmetric Diff (In A or B, but not both): {1, 2, 4, 5}
+
+setA.difference_update(setB)# In-place Difference (Mutates setA to {1, 2})
 ```
 
 ### Heaps / Priority Queues (Java `PriorityQueue`)
