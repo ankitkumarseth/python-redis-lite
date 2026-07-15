@@ -121,12 +121,27 @@ print(db)      # "Database with 2 items"
 ## 5. Core Data Structures (The DSA Toolbelt)
 
 ### Lists (Java `ArrayList`)
+Python lists are highly versatile. Here are the core methods you need to know for DSA:
+
 ```python
 arr = [10, 20, 30]
-arr.append(40)      # Add to end: O(1)
-arr.pop()           # Remove from end: O(1)
-# arr.pop(0)        # DO NOT DO THIS! It shifts all elements: O(N)
+
+# 1. Adding Elements
+arr.append(40)          # Adds 40 to the end: O(1)
+arr.insert(1, 15)       # Inserts 15 at index 1 (shifts rest right): O(N)
+arr.extend([50, 60])    # Appends multiple elements to the end: O(K)
+
+# 2. Removing Elements
+arr.pop()               # Removes & returns the LAST element: O(1)
+popped = arr.pop(1)     # Removes & returns element at index 1: O(N)
+arr.remove(20)          # Removes the FIRST occurrence of value 20: O(N)
+del arr[0]              # Deletes element at index 0 without returning it: O(N)
+
+# 3. Sorting (Mutating vs Non-Mutating)
+arr.sort()              # Mutates the list in-place (returns None)
+new_arr = sorted(arr)   # Creates a BRAND NEW sorted list (arr remains unchanged)
 ```
+
 
 ### Queues / Deques (Java `LinkedList`)
 If you need a Queue for BFS, **always use `collections.deque`**. 
