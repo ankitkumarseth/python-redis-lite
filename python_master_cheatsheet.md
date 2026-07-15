@@ -156,15 +156,28 @@ queue.pop()           # Dequeue from tail: O(1)
 ```
 
 ### Dictionaries (Java `HashMap`)
+Dictionaries are Python's Hash Maps. They store key-value pairs and offer $O(1)$ lookups.
+
 ```python
 map = {"Alice": 25, "Bob": 30}
+
+# 1. Adding / Updating
 map["Charlie"] = 35         # Put: O(1)
+map.update({"Dave": 40})    # Bulk update: O(K)
 
-# Safe Retrieval (Avoids KeyError)
-age = map.get("Dave", 0)    # Returns 0 if "Dave" is not found
+# 2. Retrieving
+age = map["Alice"]          # Unsafe retrieval (throws KeyError if missing)
+age = map.get("Dave", 0)    # Safe Retrieval (Returns default 0 if not found)
 
-# Iteration
-for key, val in map.items():
+# 3. Removing
+del map["Bob"]              # Deletes key (throws KeyError if missing)
+val = map.pop("Alice")      # Removes key AND returns its value
+map.pop("Eve", None)        # Safe pop (returns None instead of throwing KeyError)
+
+# 4. Iteration
+keys = map.keys()           # View of keys
+vals = map.values()         # View of values
+for key, val in map.items():# Iterate both!
     print(f"{key} is {val}")
 ```
 
@@ -200,11 +213,42 @@ scores["Alice"] += 10
 *   `any(condition for x in arr)`: Returns `True` if *at least one* element matches.
 *   `all(condition for x in arr)`: Returns `True` if *every* element matches.
 
+### Tuples (Immutable Lists)
+Tuples are just like lists, but they are **immutable** (cannot be changed after creation). This makes them perfect for storing coordinate pairs `(x, y)` or using them as keys in a Dictionary!
+
+```python
+# 1. Creation
+point = (10, 20)
+single = (5,)               # MUST have a comma for a single-element tuple!
+
+# 2. Unpacking (Massively useful in DSA)
+x, y = point                # x = 10, y = 20
+
+# 3. Operations (No mutation allowed)
+# point[0] = 15             # ERROR! Tuples are immutable.
+print(point[0])             # 10 (Access is O(1))
+```
+
 ### Sets (Java `HashSet`)
+Sets store unique elements and offer $O(1)$ lookups. They support powerful mathematical operations.
+
 ```python
 seen = set([1, 2, 3])
-seen.add(4)
-print(2 in seen) # True: O(1)
+
+# 1. Adding / Checking
+seen.add(4)                 # Add element: O(1)
+print(2 in seen)            # Check existence: True: O(1)
+
+# 2. Removing
+seen.remove(4)              # Removes 4 (throws KeyError if missing)
+seen.discard(99)            # Safely removes 99 (does nothing if missing)
+
+# 3. Set Operations (Math logic)
+setA = {1, 2, 3}
+setB = {3, 4, 5}
+print(setA & setB)          # Intersection: {3}
+print(setA | setB)          # Union: {1, 2, 3, 4, 5}
+print(setA - setB)          # Difference: {1, 2}
 ```
 
 ### Heaps / Priority Queues (Java `PriorityQueue`)
