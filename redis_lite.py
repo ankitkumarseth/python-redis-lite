@@ -1,35 +1,39 @@
+import collections
+
 class RedisLite:
     """
     An in-memory Key-Value store to practice Python Data Structures and OOP.
     """
     
     def __init__(self):
-        # TODO: Initialize a dictionary to store your key-value pairs
-        # TODO: Initialize a dictionary to store expiry times (optional challenge)
-        pass
+        # Initialize a dictionary to store your key-value pairs
+        self.store = {}
 
     def set(self, key: str, value: str) -> None:
         """
         Store the key-value pair.
         """
-        # TODO: Implement this method
-        pass
+        self.store[key] = value
 
     def get(self, key: str) -> str:
         """
         Retrieve the value for a given key.
         If the key doesn't exist, raise a KeyError with a custom message.
         """
-        # TODO: Implement this method using a try/except or an if statement
-        pass
+        try:
+            return self.store[key]
+        except KeyError:
+            raise KeyError(f"Key '{key}' does not exist in RedisLite.")
 
     def delete(self, key: str) -> bool:
         """
         Delete a key from the store. 
         Return True if deleted, False if the key didn't exist.
         """
-        # TODO: Implement this method
-        pass
+        if key in self.store:
+            del self.store[key]
+            return True
+        return False
 
     # --- QUEUE OPERATIONS (Simulating Redis Lists) ---
 
@@ -37,18 +41,19 @@ class RedisLite:
         """
         Push a value to the 'left' (start) of a list stored at the key.
         If the key doesn't exist, create a new collections.deque.
-        HINT: Use collections.deque for O(1) left insertions!
         """
-        # TODO: Implement this method
-        pass
+        if key not in self.store:
+            self.store[key] = collections.deque()
+        self.store[key].appendleft(value)
 
     def rpop(self, key: str) -> str:
         """
         Pop and return a value from the 'right' (end) of a list stored at the key.
         If the key doesn't exist or is empty, return None.
         """
-        # TODO: Implement this method
-        pass
+        if key not in self.store or not self.store[key]:
+            return None
+        return self.store[key].pop()
 
     # --- BITWISE CHALLENGE ---
 
@@ -59,9 +64,10 @@ class RedisLite:
         with a running hash value.
         Return the final integer hash.
         """
-        # TODO: Implement this method using a for loop and the ^ operator.
-        # Initialize hash_val = 0
-        pass
+        hash_val = 0
+        for char in key:
+            hash_val ^= ord(char)
+        return hash_val
 
     # --- FILE HANDLING (Simulating Redis Snapshots) ---
 
@@ -70,47 +76,48 @@ class RedisLite:
         Save the current key-value store to a file.
         Write each key-value pair as "key,value\\n" on a new line.
         """
-        # TODO: Open the file in 'w' mode and write the contents of your dictionary.
-        pass
+        with open(filename, 'w') as f:
+            for k, v in self.store.items():
+                if isinstance(v, str):
+                    f.write(f"{k},{v}\n")
 
     def load_from_disk(self, filename: str) -> None:
         """
         Load key-value pairs from a file, overwriting the current store.
         Assume the file format is "key,value\\n" on each line.
         """
-        # TODO: Open the file in 'r' mode, read line by line, split by comma, and store in the dictionary.
-        pass
+        self.store.clear()
+        with open(filename, 'r') as f:
+            for line in f:
+                parts = line.strip().split(',')
+                if len(parts) >= 2:
+                    self.store[parts[0]] = parts[1]
 
     # --- PURE PYTHON SKILLS (Dunder, *args, Comprehensions) ---
 
     def __len__(self) -> int:
         """
         Return the total number of keys currently in the store.
-        This allows the user to call `len(db)` directly.
         """
-        # TODO: Implement this method
-        pass
+        return len(self.store)
 
     def __str__(self) -> str:
         """
-        Return a string representation of the database, e.g., "RedisLite with X keys".
-        This allows the user to call `print(db)`.
+        Return a string representation of the database.
         """
-        # TODO: Implement this method using an f-string and len(self)
-        pass
+        return f"RedisLite with {len(self)} keys"
 
     def mset(self, *args) -> None:
         """
         Set multiple key-value pairs at once. 
         `args` will be a tuple like ("key1", "val1", "key2", "val2").
         """
-        # TODO: Implement this using a for loop and range() with a step of 2.
-        # Hint: self.set(args[i], args[i+1])
-        pass
+        for i in range(0, len(args), 2):
+            if i + 1 < len(args):
+                self.set(args[i], args[i+1])
 
     def keys(self, pattern: str) -> list:
         """
         Return a list of all keys that contain the given pattern.
         """
-        # TODO: Implement this using a one-line list comprehension!
-        pass
+        return [k for k in self.store.keys() if pattern in k]
