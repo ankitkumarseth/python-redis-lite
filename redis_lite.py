@@ -80,3 +80,37 @@ class RedisLite:
         """
         # TODO: Open the file in 'r' mode, read line by line, split by comma, and store in the dictionary.
         pass
+
+    # --- PURE PYTHON SKILLS (Dunder, *args, Comprehensions) ---
+
+    def __len__(self) -> int:
+        """
+        Return the total number of keys currently in the store.
+        This allows the user to call `len(db)` directly.
+        """
+        # TODO: Implement this method
+        pass
+
+    def __str__(self) -> str:
+        """
+        Return a string representation of the database, e.g., "RedisLite with X keys".
+        This allows the user to call `print(db)`.
+        """
+        # TODO: Implement this method using an f-string and len(self)
+        pass
+
+    def mset(self, *args) -> None:
+        """
+        Set multiple key-value pairs at once. 
+        `args` will be a tuple like ("key1", "val1", "key2", "val2").
+        """
+        # TODO: Implement this using a for loop and range() with a step of 2.
+        # Hint: self.set(args[i], args[i+1])
+        pass
+
+    def keys(self, pattern: str) -> list:
+        """
+        Return a list of all keys that contain the given pattern.
+        """
+        # TODO: Implement this using a one-line list comprehension!
+        pass

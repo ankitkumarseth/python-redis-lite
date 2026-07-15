@@ -10,7 +10,6 @@ Welcome to your central hub for Python mastery. If you are ever stuck on "how do
 Python is dynamically typed. You don't declare types, but you *can* use type hints for readability (highly recommended for production code).
 
 ```python
-# Java: String name = "Alice"; int age = 30;
 name: str = "Alice"
 age: int = 30
 is_active: bool = True  # Note: True/False are capitalized!
@@ -67,13 +66,59 @@ print(s[::-1])  # 'dracretsaM' (Reverses the string!)
 Transform data in one line.
 ```python
 nums = [1, 2, 3, 4]
-# Java: List<Integer> sq = new ArrayList<>(); for(int n: nums){ sq.add(n*n); }
 squares = [n * n for n in nums if n % 2 == 0] # [4, 16]
 ```
 
 ---
 
-## 3. Core Data Structures (The DSA Toolbelt)
+## 3. Functions & Arguments (`*args`)
+
+Python functions are incredibly flexible.
+```python
+# 1. Default arguments
+def greet(name="Guest"):
+    print(f"Hello {name}")
+
+# 2. Packing / Unpacking (*args)
+# *args allows you to pass any number of positional arguments.
+def mset(*args):
+    # args is a tuple of all passed arguments
+    print(args) 
+
+mset("key1", "val1", "key2", "val2") # prints: ("key1", "val1", "key2", "val2")
+```
+
+---
+
+## 4. Object-Oriented Programming & Dunder Methods
+
+Python OOP is fundamentally identical to Java, but with simpler syntax. 
+- There is no `public/private` (we use a leading underscore `_` to signal "private by convention").
+- `this` is called `self`, and you MUST pass it explicitly as the first argument to instance methods.
+
+### Dunder (Double Underscore) Methods
+These are magic methods that let your objects behave like built-in Python types.
+```python
+class Database:
+    def __init__(self):
+        self.store = {"A": 1, "B": 2}
+        
+    def __len__(self):
+        # Allows you to call `len(db)`!
+        return len(self.store)
+        
+    def __str__(self):
+        # Equivalent to Java's `toString()`
+        return f"Database with {len(self)} items"
+
+db = Database()
+print(len(db)) # 2
+print(db)      # "Database with 2 items"
+```
+
+---
+
+## 5. Core Data Structures (The DSA Toolbelt)
 
 ### Lists (Java `ArrayList`)
 ```python
@@ -93,9 +138,6 @@ queue.append(4)       # Enqueue to tail: O(1)
 queue.appendleft(0)   # Enqueue to head: O(1)
 queue.popleft()       # Dequeue from head: O(1)
 queue.pop()           # Dequeue from tail: O(1)
-
-# Advanced Trick: Rotating the queue
-queue.rotate(1)       # Shifts elements 1 step to the right (circular)
 ```
 
 ### Dictionaries (Java `HashMap`)
@@ -105,23 +147,6 @@ map["Charlie"] = 35         # Put: O(1)
 
 # Safe Retrieval (Avoids KeyError)
 age = map.get("Dave", 0)    # Returns 0 if "Dave" is not found
-
-# Iterating
-for key, val in map.items():
-    pass
-```
-
-#### Advanced HashMaps (DSA Cheats)
-```python
-from collections import defaultdict, Counter
-
-# 1. defaultdict: Automatically handles missing keys
-adj_list = defaultdict(list)
-adj_list["node_A"].append("node_B")  # Initializes empty list instantly
-
-# 2. Counter: Counts frequencies instantly.
-freq = Counter(["apple", "apple", "banana"])
-print(freq["apple"])  # 2
 ```
 
 ### Sets (Java `HashSet`)
@@ -150,15 +175,11 @@ heapq.heapify(arr)
 max_heap = []
 heapq.heappush(max_heap, -10)
 largest = -1 * heapq.heappop(max_heap) # Returns 10
-
-# 4. Top K elements (Very useful!)
-top_two = heapq.nlargest(2, [9, 3, 2, 7])   # [9, 7]
-bottom_two = heapq.nsmallest(2, [9, 3, 2, 7]) # [2, 3]
 ```
 
 ---
 
-## 4. Sorting (Advanced)
+## 6. Sorting (Advanced)
 
 Sorting is a critical operation in many algorithms.
 ```python
@@ -174,72 +195,50 @@ arr.sort(reverse=True)
 # Example: Sort strings by length, then alphabetically
 words = ["banana", "apple", "kiwi", "pear"]
 words.sort(key=lambda x: (len(x), x)) 
-# Result: ['kiwi', 'pear', 'apple', 'banana']
 ```
 
 ---
 
-## 5. Bitwise Operations
+## 7. Bitwise Operations
 
 ### Part A: The Fundamentals
-You must understand what the operators do to binary strings before using them in algorithms.
+You must understand what the operators do to binary strings.
 *Let's assume A = 5 (0101 in binary) and B = 3 (0011 in binary).*
 
-*   **AND (`&`):** Returns 1 if *both* bits are 1.
-    *   `5 & 3` (0101 & 0011) = `0001` (1)
-*   **OR (`|`):** Returns 1 if *either* bit is 1.
-    *   `5 | 3` (0101 | 0011) = `0111` (7)
-*   **XOR (`^`):** Returns 1 if bits are *different*. Returns 0 if they are the *same*.
-    *   `5 ^ 3` (0101 ^ 0011) = `0110` (6)
-*   **NOT (`~`):** Flips all bits. (In Python, `~x` returns `-(x+1)` due to two's complement).
-    *   `~5` = `-6`
-*   **Left Shift (`<<`):** Shifts bits to the left, filling with 0s. (Equivalent to multiplying by 2).
-    *   `5 << 1` (0101 -> 1010) = `10`
-*   **Right Shift (`>>`):** Shifts bits to the right. (Equivalent to floor division by 2).
-    *   `5 >> 1` (0101 -> 0010) = `2`
+*   **AND (`&`):** Returns 1 if *both* bits are 1. (`5 & 3` = `1`)
+*   **OR (`|`):** Returns 1 if *either* bit is 1. (`5 | 3` = `7`)
+*   **XOR (`^`):** Returns 1 if bits are *different*. (`5 ^ 3` = `6`)
+*   **NOT (`~`):** Flips all bits. `~5` = `-6`
+*   **Left Shift (`<<`):** Shifts bits left (multiplies by 2). `5 << 1` = `10`
+*   **Right Shift (`>>`):** Shifts bits right (floor division by 2). `5 >> 1` = `2`
 
 ### Part B: The 4 Essential Tricks
-
 ```python
-# 1. The XOR Trick: A ^ A = 0, and A ^ 0 = A
-# Use Case: Find the missing/unique number in an array.
+# 1. The XOR Trick: A ^ A = 0
 print(5 ^ 5)  # 0
 
 # 2. Checking Even/Odd
-# The last bit of any odd number is always 1.
 n = 5
 is_odd = (n & 1) == 1
 
 # 3. Multiply / Divide by 2 instantly
-val = 10
-val = val << 1 # 20
-val = val >> 1 # 10
+val = 10 << 1 # 20
 
 # 4. Clear the lowest set bit (Brian Kernighan’s algorithm)
-# Use Case: Counting the number of 1s in a binary string.
 n = 10 # 1010
-n = n & (n - 1) # Clears the right-most '1', resulting in 1000 (8)
+n = n & (n - 1) # 1000 (8)
 ```
 
 ---
 
-## 6. File Handling (The Pythonic Way)
+## 8. File Handling (The Pythonic Way)
 
-Unlike Java's verbose `BufferedReader`, Python uses the `with open()` context manager which automatically safely closes the file for you (even if exceptions occur). This directly maps to **Chapter 7** of the IITM syllabus.
+Unlike Java's `BufferedReader`, Python uses `with open()` which automatically safely closes the file.
 
 ```python
-# 1. Reading a file
 with open('data.txt', 'r') as file:
-    content = file.read()       # Read entire file
-    # Or iterate line by line (highly memory efficient):
-    # for line in file:
-    #     print(line.strip())
+    content = file.read()       
 
-# 2. Writing to a file (overwrites)
 with open('output.txt', 'w') as file:
     file.write("Hello World!\\n")
-
-# 3. Appending to a file
-with open('log.txt', 'a') as file:
-    file.write("New log entry\\n")
 ```

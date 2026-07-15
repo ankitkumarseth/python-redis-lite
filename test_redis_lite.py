@@ -57,7 +57,25 @@ def run_tests():
         if os.path.exists("dump.rdb"):
             os.remove("dump.rdb")
 
-        print("\\n🎉 ALL TESTS PASSED! You have successfully implemented Redis-Lite!")
+        print("Test 8: Dunder Methods (__len__ and __str__)")
+        db.set("a", "1")
+        db.set("b", "2")
+        assert len(db) >= 2, f"Expected len(db) to work, got {len(db)}"
+        assert "RedisLite" in str(db), f"Expected str(db) to return a descriptive string, got: {str(db)}"
+
+        print("Test 9: Packing/Unpacking (*args)")
+        db.mset("key1", "val1", "key2", "val2")
+        assert db.get("key1") == "val1"
+        assert db.get("key2") == "val2"
+
+        print("Test 10: List Comprehensions")
+        db.set("user:1", "Ankit")
+        db.set("user:2", "John")
+        db.set("admin:1", "Alice")
+        res = db.keys("user:")
+        assert len(res) == 2 and "user:1" in res and "user:2" in res, f"Expected keys('user:') to return 2 matching keys, got {res}"
+
+        print("\n🎉 ALL TESTS PASSED! You have successfully implemented Redis-Lite!")
         
     except AssertionError as e:
         print(f"\n❌ TEST FAILED: {e}")
