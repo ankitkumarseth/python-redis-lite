@@ -147,7 +147,43 @@ map["Charlie"] = 35         # Put: O(1)
 
 # Safe Retrieval (Avoids KeyError)
 age = map.get("Dave", 0)    # Returns 0 if "Dave" is not found
+
+# Iteration
+for key, val in map.items():
+    print(f"{key} is {val}")
 ```
+
+### Advanced Collections (The DSA Secret Weapons)
+If you are doing frequency counts or grouping elements, **do not** use a normal dictionary. Use these imports from `collections` to save yourself from writing boilerplate `if key in map:` logic.
+
+**1. `Counter` (Frequency Counting)**
+```python
+from collections import Counter
+
+# Instantly count frequencies of an array or string
+counts = Counter([1, 1, 2, 3, 3, 3]) 
+print(counts[3])       # Returns 3
+print(counts[99])      # Returns 0 (No KeyError!)
+print(counts.most_common(1)) # Returns [(3, 3)]
+```
+
+**2. `defaultdict` (Grouping / Graph Adjacency Lists)**
+```python
+from collections import defaultdict
+
+# Example: Building an adjacency list for a Graph
+graph = defaultdict(list)
+graph["node_A"].append("node_B") # No need to check if "node_A" exists!
+
+# Example: Grouping by a default int (0)
+scores = defaultdict(int)
+scores["Alice"] += 10
+```
+
+### Common Built-in Utilities
+*   `max(arr)`, `min(arr)`, `sum(arr)`: Instantly compute aggregates.
+*   `any(condition for x in arr)`: Returns `True` if *at least one* element matches.
+*   `all(condition for x in arr)`: Returns `True` if *every* element matches.
 
 ### Sets (Java `HashSet`)
 ```python
