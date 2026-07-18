@@ -256,23 +256,28 @@ setA.difference_update(setB)# In-place Difference (Mutates setA to {1, 2})
 
 ### Heaps / Priority Queues (Java `PriorityQueue`)
 Python's `heapq` is a **Min-Heap** by default. It transforms a normal list into a heap in-place.
+
 ```python
 import heapq
 
-# 1. Creating a heap from scratch
+# 1. Standard Min-Heap (Smallest value treated first)
 min_heap = []
+heapq.heappush(min_heap, 50)
 heapq.heappush(min_heap, 10)
-heapq.heappush(min_heap, 5)
-smallest = heapq.heappop(min_heap)  # Returns 5
+heapq.heappush(min_heap, 99)
+smallest = heapq.heappop(min_heap)  # Returns 10
 
-# 2. Heapify an existing array: O(N) time!
-arr = [9, 3, 2, 7]
-heapq.heapify(arr) 
-
-# 3. Max-Heap Trick: Multiply by -1
+# 2. Max-Heap Trick (Largest value treated first)
+# Multiply by -1 before pushing, and -1 again after popping
 max_heap = []
-heapq.heappush(max_heap, -10)
-largest = -1 * heapq.heappop(max_heap) # Returns 10
+heapq.heappush(max_heap, 50 * -1)
+heapq.heappush(max_heap, 10 * -1)
+heapq.heappush(max_heap, 99 * -1)
+largest = heapq.heappop(max_heap) * -1  # Returns 99
+
+# 3. Heapify an existing array: O(N) time!
+arr = [9, 3, 2, 7]
+heapq.heapify(arr) # Mutates arr into a valid heap in-place
 ```
 
 ---
